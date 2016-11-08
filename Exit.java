@@ -25,7 +25,25 @@ public class Exit {
         @throws IllegalDungeonFormatException A structural problem with the
         dungeon file itself, detected when trying to read this room.
      */
-    Exit(Scanner s, Dungeon d) throws NoExitException,
+    
+    /*An Exit shall now take a boolean when reading in the files that defines
+    * whether or not the exit can be accessed (is it locked or not?).
+    * For now, a locked exit will be determined to be unlocked by an item being 
+    * in the adventurer's inventory.
+    * Upon being given the command to access an exit, IFF the exit is locked, will
+    * a the Exit class call a method that returns a String saying either 1. the 
+    * exit is locked (not wanting to disclose the item) or 2. adventurer does not have 
+    * required item to access the exit, or 3. it's unlocked and the adventurer
+    * can pass.
+    *@param HashTable<Item,String> isLocked; Item in order to unlock. String that is used
+    *when exit is unlocked.
+    *@param Boolean isLocked
+    *
+    *@author Jonathan Samuelsen
+    *@author Daniel Zamojda
+    *@author Brendon Kertcher
+    */
+    Exit(Scanner s, Dungeon d, Boolean isLocked) throws NoExitException,
         Dungeon.IllegalDungeonFormatException {
 
         init();
