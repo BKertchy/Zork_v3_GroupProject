@@ -45,6 +45,15 @@ public class Interpreter {
                     CommandFactory.instance().parse(command).execute());
 
                 command = promptUser(commandLine);
+                
+                if(GameState.instance().yourDead()){
+                    System.out.println("You have failed! Death has grasped you!");
+                    command = "q";
+                }
+                if(GameState.instance().youWin()){
+                    System.out.println("You have beaten the ultimate dungeon! You Win!");
+                    command = "q";
+                }
             }
 
             System.out.println("Bye!");
