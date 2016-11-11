@@ -160,5 +160,12 @@ public class GameState {
     Dungeon getDungeon() {
         return dungeon;
     }
-
+    
+    boolean yourDead(){
+        return health<=0;
+    }
+    
+    boolean youWin(){
+        return score >= 25;
+    }
 }
