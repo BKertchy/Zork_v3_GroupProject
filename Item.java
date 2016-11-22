@@ -1,5 +1,4 @@
-import java.util.Scanner;
-import java.util.Hashtable;
+import java.util.*;
 
 public class Item {
 
@@ -67,19 +66,8 @@ public class Item {
     public String toString() {
         return primaryName;
     }
-    
-    /*This method returns a string indicating the score achieved from retrieving
-      the item this method was called on. It will use a separate hashtable indicated
-      above in order to determine it's score point total(probably only 1). Then,
-      Gamestate.instance() will be updated.
-      @author Jonathan Samuelsen
-      @author Daniel Zamojda
-      @author Brendon Kertcher
-    */
-    public String score()
-    {
-        return events.get("Score");
-    }
+
+
     
     /*This method returns a string indicating how much the player has been wounded
       and by what item (the item this method was called on). Using the event hashtable,
@@ -140,19 +128,12 @@ public class Item {
         return "";
     }
 
-    public String teleport(String newRoom)
+    public String teleport()
     {
-        String output = "";
-        GameState current = GameState.instance();
-        Dungeon theDungeon = current.getDungeon();
-        Room setRoom = theDungeon.getRoom(newRoom);
-        current.setAdventurersCurrentRoom(setRoom);
+        Room newRoom = GameState.instance().getDungeon().getRandomNRoom();
+        GameState.instance().setAdventurersCurrentRoom(newRoom);
 
-        output = "You have been teleported to a new room! \n ";
-
-        setRoom.describe();
-        System.out.println(output);
-        return "";
+        return "You teleported to " + newRoom.getTitle() + "\n" + newRoom.describe();
     }
 
     public String[] getEventsForVerb(String verb) { return events.get(verb); }
