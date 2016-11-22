@@ -1,4 +1,5 @@
-import java.util.*;
+import java.util.Scanner;
+import java.util.Hashtable;
 
 public class Item {
 
@@ -67,21 +68,20 @@ public class Item {
         return primaryName;
     }
 
-
-    
     /*This method returns a string indicating how much the player has been wounded
-      and by what item (the item this method was called on). Using the event hashtable,
-      it will collect the String, convert it to an integer and update GameState.instance()
-      accordingly.
-      @author Jonathan Samuelsen
-      @author Daniel Zamojda
-      @author Brendon Kertcher
-    */
+  and by what item (the item this method was called on). Using the event hashtable,
+  it will collect the String, convert it to an integer and update GameState.instance()
+  accordingly.
+  @author Jonathan Samuelsen
+  @author Daniel Zamojda
+  @author Brendon Kertcher
+*/
     public String wound(int healthPoints) {
+        healthPoints = healthPoints * -1;
         GameState.instance().changeHealth(healthPoints);
         if(healthPoints > 0)
             return "You gained " + healthPoints + " health points!";
-        return "You lost " + healthPoints + " health points!";
+        return "You lost " + Math.abs(healthPoints) + " health points!";
     }
     
     /*This method returns the string explaining that the item it was called on has
@@ -93,11 +93,16 @@ public class Item {
     */
     public String disappear(Item item) throws NoItemException
     {
-         GameState current =  GameState.instance();
-         Dungeon currentDungeon = current.getDungeon();
-         String output = item.getPrimaryName() + " is gone forever!";
-         current.removeItem(item.getPrimaryName());
-         currentDungeon.removeItem(item.getPrimaryName());
+        String output;
+        try {
+            GameState current = GameState.instance();
+            Dungeon currentDungeon = current.getDungeon();
+            output = item.getPrimaryName() + " is gone forever!";
+            current.removeItem(item.getPrimaryName());
+            currentDungeon.removeItem(item.getPrimaryName());
+        } catch(NoItemException e) {
+            output = "";
+        }
          return output;
     }
 
@@ -130,7 +135,7 @@ public class Item {
 
     public String teleport()
     {
-        Room newRoom = GameState.instance().getDungeon().getRandomNRoom();
+        Room newRoom = GameState.instance().getDungeon().getRandomRoom();
         GameState.instance().setAdventurersCurrentRoom(newRoom);
 
         return "You teleported to " + newRoom.getTitle() + "\n" + newRoom.describe();

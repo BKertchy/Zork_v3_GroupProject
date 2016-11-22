@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Scanner;
 import java.io.IOException;
@@ -190,4 +191,13 @@ public class Dungeon {
 
     }
 
+    public Room getRandomRoom() {
+        ArrayList<Room> roomList = new ArrayList<>();
+        for(Room r : rooms.values()) {
+            roomList.add(r);
+        }
+        return roomList.get((int)Math.random() * rooms.size());
+
+        // TAKE THIS OUT
+    }
 }

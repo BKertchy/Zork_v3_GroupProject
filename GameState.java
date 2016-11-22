@@ -76,6 +76,50 @@ public class GameState {
 
     private GameState() {
         inventory = new ArrayList<Item>();
+        health = 25;
+        score = 0;
+
+
+        int a = 0;
+        Integer aI = a;
+        int b = 5;
+        Integer bI = b;
+        int c = 10;
+        Integer cI = c;
+        int d = 15;
+        Integer dI = d;
+        int e = 20;
+        Integer eI = e;
+        int f = 25;
+        Integer fI = f;
+
+        String aS = "You are a scrub with no points";
+        String bS = "You're finally getting the hang of it, but you still need to get good";
+        String cS = "Good job there bud on not getting killed";
+        String dS = "If you got this far you might actually win";
+        String eS = "You are a great and respected Knight";
+        String fS = "Holy crap, you won";
+
+        adventurerRank.put(aI, aS);
+        adventurerRank.put(bI, bS);
+        adventurerRank.put(cI, cS);
+        adventurerRank.put(dI, dS);
+        adventurerRank.put(eI, eS);
+        adventurerRank.put(fI, fS);
+
+        String aH = "You start to feel cold, you're losing conciousness, confused and fearing the end is imminent";
+        String bH = "You're whole body is aching, much more of this and you fear you won't last long.";
+        String cH = "Meh, it's just a flesh wound";
+        String dH = "tis but a scratch";
+        String eH = "You are fit as a fiddle... with one broken string";
+        String fH = "You feel one hunna";
+
+        healthStatus.put(aI,aH);
+        healthStatus.put(bI,bH);
+        healthStatus.put(cI,cH);
+        healthStatus.put(dI,dH);
+        healthStatus.put(eI,eH);
+        healthStatus.put(fI,fH);
     }
 
     void restore(String filename) throws FileNotFoundException,
@@ -103,9 +147,10 @@ public class GameState {
         String currentRoomLine = s.nextLine();
         adventurersCurrentRoom = dungeon.getRoom(
             currentRoomLine.substring(CURRENT_ROOM_LEADER.length()));
-        if (s.hasNext()) {
-            String inventoryList = s.nextLine().substring(
-                INVENTORY_LEADER.length());
+
+        String temp = s.nextLine();
+        if (temp.startsWith(INVENTORY_LEADER)) {
+            String inventoryList = temp.substring(INVENTORY_LEADER.length());
             String[] inventoryItems = inventoryList.split(",");
             for (String itemName : inventoryItems) {
                 try {
@@ -115,7 +160,11 @@ public class GameState {
                         itemName + "'");
                 }
             }
+            health = Integer.parseInt(s.nextLine().substring(HEALTH_LEADER.length()));
+        } else {
+            health = Integer.parseInt(temp.substring(HEALTH_LEADER.length()));
         }
+        score = Integer.parseInt(s.nextLine().substring(SCORE_LEADER.length()));
     }
 
     void store() throws IOException {
@@ -144,43 +193,6 @@ public class GameState {
     void initialize(Dungeon dungeon) {
         this.dungeon = dungeon;
         adventurersCurrentRoom = dungeon.getEntry();
-
-        int a = 5;
-        Integer aI = a;
-        int b = 10;
-        Integer bI = b;
-        int c = 15;
-        Integer cI = c;
-        int d = 20;
-        Integer dI = d;
-        int e = 25;
-        Integer eI = e;
-
-        String aS = "You are a scrub with no points";
-        String bS = "You're finally getting the hang of it, but you still need to get good";
-        String cS = "Good job there bud on not getting killed";
-        String dS = "If you got this far you might actually win";
-        String eS = "You are a great and respected Knight";
-
-        adventurerRank.put(aI, aS);
-        adventurerRank.put(bI, bS);
-        adventurerRank.put(cI, cS);
-        adventurerRank.put(dI, dS);
-        adventurerRank.put(eI, eS);
-
-        String aH = "You start to feel cold, you're losing conciousness, confused and fearing the end is imminent";
-        String bH = "You're whole body is aching, much more of this and you fear you won't last long.";
-        String cH = "Meh, it's just a flesh wound";
-        String dH = "tis but a scratch";
-        String eH = "You feel one hunna";
-
-        healthStatus.put(aI,aH);
-        healthStatus.put(bI,bH);
-        healthStatus.put(cI,cH);
-        healthStatus.put(dI,dH);
-        healthStatus.put(eI,eH);
-
-
     }
 
     ArrayList<String> getInventoryNames() {
@@ -260,13 +272,12 @@ public class GameState {
     public String getHealthMessage(int currentHealth)
     {
 
-        int actualHealth = currentHealth;
-
+        Integer actualHealth = currentHealth;
         if(currentHealth%5 != 0)
         {
             actualHealth = actualHealth - (currentHealth%5);
         }
-        return healthStatus.get(actualHealth);
+        return healthStatus.get(actualHealth) + "\n";
 
     }
 
@@ -287,13 +298,13 @@ public class GameState {
 
     public String getRank(int currentScore)
     {
-        int actualScore = currentScore;
+        Integer actualScore = currentScore;
 
         if(currentScore%5 != 0)
         {
             actualScore = actualScore - (currentScore%5);
         }
-        return adventurerRank.get(actualScore);
+        return adventurerRank.get(actualScore) + "\n";
 
     }
 
@@ -318,5 +329,7 @@ public class GameState {
    
     public void setScore(int b){
         score += b;
-    } 
+    }
+
+
 }
