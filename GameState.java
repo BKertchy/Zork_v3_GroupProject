@@ -32,7 +32,8 @@ public class GameState {
     /** 
     * Final int variable that stores the maximum weight that an adventururer can carry
     */
-    static final int MAX_WEIGHT = 20;
+    static final int MAX_SCORE = 25;
+    static final int MAX_WEIGHT = 100;
 
     static final int MAX_HEALTH = 25;
 
@@ -52,7 +53,6 @@ public class GameState {
     * as a key to retrieve the health from the healthMessage hashtable
     */
     private int health;
-    final int max_health = 25;
     /**
     *Hashtable that will take in a key, the adventurer's health, and return the correct message based on the adventurer's health
     */
@@ -272,6 +272,10 @@ public class GameState {
     public String getHealthMessage(int currentHealth)
     {
 
+        if(currentHealth <= 0)
+        {
+            GameState.instance().die();
+        }
         Integer actualHealth = currentHealth;
         if(currentHealth%5 != 0)
         {
@@ -300,6 +304,8 @@ public class GameState {
     {
         Integer actualScore = currentScore;
 
+        GameState.instance().checkHealth();
+
         if(currentScore%5 != 0)
         {
             actualScore = actualScore - (currentScore%5);
@@ -308,11 +314,40 @@ public class GameState {
 
     }
 
+    public void checkHealth()
+    {
+        if(health <= 0)
+        {
+            GameState.instance().die();
+        }
+        System.out.println("HEALTH = "+ health);
+    }
+    public void checkScore()
+    {
+        if(score == MAX_SCORE || score > MAX_SCORE)
+        {
+            GameState.instance().win();
+        }
+        System.out.println("SCORE = "+ score);
+    }
     public void removeItem(String itemName) throws Item.NoItemException
     {
         GameState x = GameState.instance();
         inventory.remove(x.getItemFromInventoryNamed(itemName));
     }
+
+    public void win()
+    {
+        System.out.println("You win, Congratulations!");
+        System.exit(0);
+    }
+    public void die()
+    {
+        System.out.println("W A S T E D + \n");
+        System.out.println("You died");
+        System.exit(0);
+    }
+
     /**
     * Getter method that will return an int of the adventurer's total inventory weight
     *@return String message regarding adventurer rank

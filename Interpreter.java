@@ -37,7 +37,9 @@ public class Interpreter {
             System.out.print("\n" + 
                 state.getAdventurersCurrentRoom().describe() + "\n");
 
+
             command = promptUser(commandLine);
+
 
             while (!command.equals("q")) {
 
@@ -56,6 +58,8 @@ public class Interpreter {
 
     private static String promptUser(Scanner commandLine) {
 
+        state.checkHealth();
+        state.checkScore();
         System.out.print("> ");
         return commandLine.nextLine();
     }

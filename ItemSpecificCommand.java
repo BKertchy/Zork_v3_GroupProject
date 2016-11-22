@@ -39,6 +39,10 @@ class ItemSpecificCommand extends Command {
                     msg += "\n" + itemReferredTo.disappear(itemReferredTo);
                 } else if(event.startsWith("Score")) {
                     GameState.instance().setScore(Integer.parseInt(event.substring(event.indexOf("(") + 1, event.length() - 1)));
+                } else if(event.startsWith("Win")){
+                    GameState.instance().win();
+                } else if(event.startsWith("Die")){
+                    GameState.instance().die();
                 }
             }
         }
