@@ -339,7 +339,7 @@ public class GameState {
     }
     public void die()
     {
-        System.out.println("W A S T E D + \n");
+        System.out.println("W A S T E D \n");
         System.out.println("You died");
         System.exit(0);
     }
