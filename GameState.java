@@ -35,8 +35,6 @@ public class GameState {
     static final int MAX_SCORE = 25;
     static final int MAX_WEIGHT = 100;
 
-    static final int MAX_HEALTH = 25;
-
     /**
     * Variable that stores the current weight of the adventurer's inventory
     */
@@ -320,7 +318,6 @@ public class GameState {
         {
             GameState.instance().die();
         }
-        System.out.println("HEALTH = "+ health);
     }
     public void checkScore()
     {
@@ -328,7 +325,6 @@ public class GameState {
         {
             GameState.instance().win();
         }
-        System.out.println("SCORE = "+ score);
     }
     public void removeItem(String itemName) throws Item.NoItemException
     {
