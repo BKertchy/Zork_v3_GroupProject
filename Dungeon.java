@@ -196,7 +196,8 @@ public class Dungeon {
         for(Room r : rooms.values()) {
             roomList.add(r);
         }
-        return roomList.get((int)Math.random() * rooms.size());
+        int x = (int) (Math.random() * roomList.size());
+        return roomList.get(x);
 
         // TAKE THIS OUT
     }

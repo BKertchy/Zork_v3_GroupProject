@@ -310,10 +310,8 @@ public class GameState {
 
     public void removeItem(String itemName) throws Item.NoItemException
     {
-        if(inventory.remove(itemName) == false){
-            throw new Item.NoItemException();
-        }
-        inventory.remove(itemName);
+        GameState x = GameState.instance();
+        inventory.remove(x.getItemFromInventoryNamed(itemName));
     }
     /**
     * Getter method that will return an int of the adventurer's total inventory weight
