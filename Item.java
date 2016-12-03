@@ -142,6 +142,10 @@ public class Item {
     }
 
 
+    public void updateInventory()
+    {
+        GameState.instance().setWeight(weight);
+    }
 
     public String[] getEventsForVerb(String verb) { return events.get(verb); }
 }

@@ -38,7 +38,7 @@ public class GameState {
     /**
     * Variable that stores the current weight of the adventurer's inventory
     */
-    private int currrentWeight;
+    private int currentWeight;
     
     /** 
     * A private variable that will store the score of the adventurer, this will then be used
@@ -348,14 +348,17 @@ public class GameState {
     * Getter method that will return an int of the adventurer's total inventory weight
     *@return String message regarding adventurer rank
     */
-    public int getInventoryWeight() { return this.currrentWeight; }
+    public int getInventoryWeight() { return this.currentWeight; }
     
     /**
     * Method that will check the current weight of inventory is lower than MAX_WEIGHT
     *@return boolean true if current weight is less than MAX_WEIGHT, false if greater than MAX_WEIGHT
     */
-    public boolean checkWeight() { return currrentWeight <= MAX_WEIGHT; }
-   
+    public boolean checkWeight() { return currentWeight <= MAX_WEIGHT; }
+
+    public void setWeight(int x){
+        currentWeight += x;
+    }
     public void setScore(int b){
         score += b;
     }

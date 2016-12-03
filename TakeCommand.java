@@ -1,6 +1,7 @@
 class TakeCommand extends Command {
 
     private String itemName;
+    private String overburdened;
 
     TakeCommand(String itemName) {
         this.itemName = itemName;
@@ -10,13 +11,22 @@ class TakeCommand extends Command {
         if (itemName == null || itemName.trim().length() == 0) {
             return "Take what?\n";
         }
+        overburdened = "Sorry, you are overburdened with weight";
         try {
-            Room currentRoom = 
-                GameState.instance().getAdventurersCurrentRoom();
-            Item theItem = currentRoom.getItemNamed(itemName);
-            GameState.instance().addToInventory(theItem);
-            currentRoom.remove(theItem);
-            return itemName + " taken.\n";
+            Room currentRoom =
+                    GameState.instance().getAdventurersCurrentRoom();
+            if (GameState.instance().checkWeight())
+            {
+                Item theItem = currentRoom.getItemNamed(itemName);
+                GameState.instance().addToInventory(theItem);
+                currentRoom.remove(theItem);
+                theItem.updateInventory();
+                return itemName + " taken.\n";
+            }
+            else {
+                return overburdened;
+            }
+
         } catch (Item.NoItemException e) {
             // Check and see if we have this already. If no exception is
             // thrown from the line below, then we do.
@@ -27,5 +37,7 @@ class TakeCommand extends Command {
                 return "There's no " + itemName + " here.\n";
             }
         }
+
     }
+
 }
