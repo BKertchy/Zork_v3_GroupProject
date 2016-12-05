@@ -59,6 +59,15 @@ public class GameState {
 
 
     /**
+    *Hashtable that will take in a key, the adventurer's score, and return their rank based on their score
+    */
+    Hashtable<Integer,String> adventurerRank = new Hashtable<>();
+    
+    /**
+    *A boolean to let the dungeon know if the adventurer has a light source
+    */
+    private boolean hasLightSource;
+    /**
      * Hashtable that will take in a key, the adventurer's score, and return their rank based on their score
      */
     Hashtable<Integer, String> adventurerRank = new Hashtable<>();
@@ -370,6 +379,15 @@ public class GameState {
 
     public String goBack() {
         return mustGoBack;
+    }
+    public boolean hasLight(){
+        return hasLightSource;
+    }
+    public void setLightSource(boolean b){
+        if(b)
+            hasLightSource = true;
+        else
+            hasLightSource = false;
     }
 
     public void setGoBack(String dir) {
