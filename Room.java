@@ -141,21 +141,24 @@ public class Room {
 
     public String describe() {
         String description;
-        if (beenHere) {
-            description = title;
+        if (isDark){
+            description = "It's too dark to see anything in the room. You'll need a light source.";
         } else {
-            description = title + "\n" + desc;
-        }
-        for (Item item : contents) {
-            description += "\nThere is a " + item.getPrimaryName() + " here.";
-        }
-        if (contents.size() > 0) { description += "\n"; }
-        if (!beenHere) {
-            for (Exit exit : exits) {
-                description += "\n" + exit.describe();
+            if (beenHere) {
+                description = title;
+            } else {
+                description = title + "\n" + desc;
             }
-        }
-        beenHere = true;
+            for (Item item : contents) {
+                description += "\nThere is a " + item.getPrimaryName() + " here.";
+            }
+            if (contents.size() > 0) { description += "\n"; }
+            if (!beenHere) {
+                for (Exit exit : exits) {
+                    description += "\n" + exit.describe();
+                }
+            }
+            beenHere = true;     
         return description;
     }
     
@@ -200,7 +203,16 @@ public class Room {
     *@author Daniel Zamojda
     *@return void
     */
-    public void setIsDark() {}
+    public void setIsDark(boolean dark) {
+        if(dark)
+            isDark = true;
+        else
+            isDark = false;
+    }
+    
+    public boolean isDark(){
+        return isDark;
+    }
     
     /**
     *Method that will return the NPC's that are in the room from the NPC arraylist
