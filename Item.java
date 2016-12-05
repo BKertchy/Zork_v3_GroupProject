@@ -36,7 +36,11 @@ public class Item {
         // Read whether item is light source.
         String line = s.nextLine();
         if (!line.startsWith("isLightSource")) {
-            throw new GameState.IllegalSaveFormatException("No isLightSource.");
+            try {
+                throw new GameState.IllegalSaveFormatException("No isLightSource.");
+            } catch (GameState.IllegalSaveFormatException e) {
+                e.printStackTrace();
+            }
         }
         lightSource = Boolean.valueOf(line.substring(line.indexOf("=")+1));
             
@@ -158,11 +162,13 @@ public class Item {
     }
 
     public String[] getEventsForVerb(String verb) { return events.get(verb); }
-    public boolean isLightSource(){return lightSource}
+    public boolean isLightSource(){return lightSource;}
     public void setLightSource(boolean b){
         if (b)
             lightSource = true;
         else
             lightSource = false;
     }
+
+    public int getWeight() { return weight; }
 }

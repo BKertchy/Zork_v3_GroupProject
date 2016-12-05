@@ -56,12 +56,6 @@ public class GameState {
      */
 
     Hashtable<Integer, String> healthStatus = new Hashtable();
-
-
-    /**
-    *Hashtable that will take in a key, the adventurer's score, and return their rank based on their score
-    */
-    Hashtable<Integer,String> adventurerRank = new Hashtable<>();
     
     /**
     *A boolean to let the dungeon know if the adventurer has a light source
@@ -205,7 +199,7 @@ public class GameState {
     void initialize(Dungeon dungeon) {
         this.dungeon = dungeon;
         adventurersCurrentRoom = dungeon.getEntry();
-        setWeight();
+        setMaxWeight();
     }
 
     ArrayList<String> getInventoryNames() {

@@ -201,4 +201,6 @@ public class Dungeon {
 
         // TAKE THIS OUT
     }
+
+    public Hashtable<String,Item> getItems() { return items; }
 }
