@@ -33,7 +33,7 @@ public class GameState {
      * Final int variable that stores the maximum weight that an adventururer can carry
      */
     static final int MAX_SCORE = 25;
-    static final int MAX_WEIGHT = 100;
+    static int maxWeight = 100;
 
     /**
      * Variable that stores the current weight of the adventurer's inventory
@@ -86,6 +86,7 @@ public class GameState {
     }
 
     private GameState() {
+
         inventory = new ArrayList<Item>();
         health = 25;
         score = 0;
@@ -204,6 +205,7 @@ public class GameState {
     void initialize(Dungeon dungeon) {
         this.dungeon = dungeon;
         adventurersCurrentRoom = dungeon.getEntry();
+        setWeight();
     }
 
     ArrayList<String> getInventoryNames() {
@@ -366,7 +368,7 @@ public class GameState {
      * @return boolean true if current weight is less than MAX_WEIGHT, false if greater than MAX_WEIGHT
      */
     public boolean checkWeight() {
-        return currentWeight <= MAX_WEIGHT;
+        return currentWeight <= maxWeight;
     }
 
     public void setWeight(int x) {
@@ -405,6 +407,14 @@ public class GameState {
             case "d":
                 mustGoBack = "u";
         }
+
+    }
+
+    public void setMaxWeight(){
+        int sum = 0;
+        for(Item i : dungeon.getItems().values())
+            sum+= i.getWeight();
+        maxWeight = (int) Math.round( sum *.75);
 
     }
 }
