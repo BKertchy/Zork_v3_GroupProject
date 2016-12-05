@@ -21,6 +21,9 @@ class TakeCommand extends Command {
                 GameState.instance().addToInventory(theItem);
                 currentRoom.remove(theItem);
                 theItem.updateInventory();
+                if(theItem.isLightSource()){
+                    GameState.instance().setLightSource(true);
+                }
                 return itemName + " taken.\n";
             }
             else {
