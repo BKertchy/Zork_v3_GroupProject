@@ -255,6 +255,11 @@ public class GameState {
         adventurersCurrentRoom = room;
     }
 
+    public ArrayList<Item> getInventory()
+    {
+        return inventory;
+    }
+
     Dungeon getDungeon() {
         return dungeon;
     }

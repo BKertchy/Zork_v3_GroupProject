@@ -17,8 +17,8 @@ class DropCommand extends Command {
             GameState.instance().removeFromInventory(theItem);
             GameState.instance().getAdventurersCurrentRoom().add(theItem);
             GameState.instance().setLightSource(false);
-            for (Item : GameState.instance().getInventory()){
-                if(Item.isLightSource())
+            for (Item x : GameState.instance().getInventory()){
+                if(x.isLightSource())
                     GameState.instance().setLightSource(true);
             }
             return itemName + " dropped.\n";
