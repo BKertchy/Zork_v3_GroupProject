@@ -14,6 +14,9 @@ public class Item {
       (as explained below) in order to accomplish the event.
     */
     private Hashtable<String,String[]> events;
+    
+    //Variable for if it's a lightsource
+    private boolean lightSource;
 
     Item(Scanner s) throws NoItemException,
         Dungeon.IllegalDungeonFormatException {
@@ -29,7 +32,14 @@ public class Item {
 
         // Read item weight.
         weight = Integer.valueOf(s.nextLine());
-
+        
+        // Read whether item is light source.
+        String line = s.nextLine();
+        if (!line.startsWith("isLightSource")) {
+            throw new GameState.IllegalSaveFormatException("No isLightSource.");
+        }
+        lightSource = Boolean.valueOf(line.substring(line.indexOf("=")+1));
+            
         // Read and parse verbs lines, as long as there are more.
         String verbLine = s.nextLine();
         while (!verbLine.equals(Dungeon.SECOND_LEVEL_DELIM)) {
@@ -148,4 +158,11 @@ public class Item {
     }
 
     public String[] getEventsForVerb(String verb) { return events.get(verb); }
+    public boolean isLightSource(){return lightSource}
+    public void setLightSource(boolean b){
+        if (b)
+            lightSource = true;
+        else
+            lightSource = false;
+    }
 }
