@@ -6,6 +6,8 @@ public class Exit {
 
     private String dir;
     private Room src, dest;
+    private boolean isLocked;
+    private Item key;
 
     Exit(String dir, Room src, Room dest) {
         init();
@@ -43,7 +45,7 @@ public class Exit {
     *@author Daniel Zamojda
     *@author Brendon Kertcher
     */
-    Exit(Scanner s, Dungeon d, Boolean isLocked) throws NoExitException,
+    Exit(Scanner s, Dungeon d) throws NoExitException,
         Dungeon.IllegalDungeonFormatException {
 
         init();
@@ -55,12 +57,21 @@ public class Exit {
         dir = s.nextLine();
         dest = d.getRoom(s.nextLine());
         
+        //An exit will sometimes need a key to open
+        String itemName = s.nextLine();
+        while (!itemName.equals(Dungeon.SECOND_LEVEL_DELIM)){
+            key = d.getItem(itemName);
+            isLocked = true;
+            itemName = s.nextLine();
+        }
+            
         // I'm an Exit object. Great. Add me as an exit to my source Room too,
         // though.
         src.addExit(this);
 
+            
         // throw away delimiter
-        if (!s.nextLine().equals(Dungeon.SECOND_LEVEL_DELIM)) {
+        if (!itemName.equals(Dungeon.SECOND_LEVEL_DELIM)) {
             throw new Dungeon.IllegalDungeonFormatException("No '" +
                 Dungeon.SECOND_LEVEL_DELIM + "' after exit.");
         }
