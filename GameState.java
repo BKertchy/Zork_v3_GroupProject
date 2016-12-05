@@ -64,6 +64,10 @@ public class GameState {
     */
     Hashtable<Integer,String> adventurerRank = new Hashtable<>();
     
+    /*
+    *A boolean to let the dungeon know if the adventurer has a light source
+    */
+    private boolean hasLightSource;
     
     static synchronized GameState instance() {
         if (theInstance == null) {
@@ -362,6 +366,14 @@ public class GameState {
     public void setScore(int b){
         score += b;
     }
-
+    public boolean hasLight(){
+        return hasLightSource;
+    }
+    public void setLightSource(boolean b){
+        if(b)
+            hasLightSource = true;
+        else
+            hasLightSource = false;
+    }
 
 }
