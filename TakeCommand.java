@@ -8,6 +8,9 @@ class TakeCommand extends Command {
     }
 
     public String execute() {
+        if (GameState.instance().getAdventurersCurrentRoom().isDark() &&
+            !GameState.instance().hasLight())
+            return "The room is dark and you are unable to see anything to take.";
         if (itemName == null || itemName.trim().length() == 0) {
             return "Take what?\n";
         }
