@@ -146,7 +146,7 @@ public class Room {
     public String describe()
     {
         String description;
-        if (isDark) {
+        if (isDark && !GameState.instance().hasLight()) {
             description = "It's too dark to see anything in the room. You'll need a light source.";
             return description;
 
