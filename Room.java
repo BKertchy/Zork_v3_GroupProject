@@ -45,9 +45,16 @@ public class Room {
         init();
         title = s.nextLine();
         desc = "";
+        
         if (title.equals(Dungeon.TOP_LEVEL_DELIM)) {
             throw new NoRoomException();
         }
+            
+        String line = s.nextLine();
+        if (!line.startsWith("isDark")) {
+            throw new GameState.IllegalSaveFormatException("No isDark.");
+        }
+        isDark = Boolean.valueOf(line.substring(line.indexOf("=")+1));
         
         String lineOfDesc = s.nextLine();
         while (!lineOfDesc.equals(Dungeon.SECOND_LEVEL_DELIM) &&
