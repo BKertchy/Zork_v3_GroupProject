@@ -52,7 +52,11 @@ public class Room {
             
         String line = s.nextLine();
         if (!line.startsWith("isDark")) {
-            throw new GameState.IllegalSaveFormatException("No isDark.");
+            try {
+                throw new GameState.IllegalSaveFormatException("No isDark.");
+            } catch (GameState.IllegalSaveFormatException e) {
+                e.printStackTrace();
+            }
         }
         isDark = Boolean.valueOf(line.substring(line.indexOf("=")+1));
         
@@ -139,11 +143,15 @@ public class Room {
         }
     }
 
-    public String describe() {
+    public String describe()
+    {
         String description;
-        if (isDark){
+        if (isDark) {
             description = "It's too dark to see anything in the room. You'll need a light source.";
+            return description;
+
         } else {
+
             if (beenHere) {
                 description = title;
             } else {
@@ -152,14 +160,17 @@ public class Room {
             for (Item item : contents) {
                 description += "\nThere is a " + item.getPrimaryName() + " here.";
             }
-            if (contents.size() > 0) { description += "\n"; }
+            if (contents.size() > 0) {
+                description += "\n";
+            }
             if (!beenHere) {
                 for (Exit exit : exits) {
                     description += "\n" + exit.describe();
                 }
             }
-            beenHere = true;     
-        return description;
+            beenHere = true;
+            return description;
+        }
     }
     
     public Room leaveBy(String dir) {
