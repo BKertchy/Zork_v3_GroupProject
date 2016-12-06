@@ -39,30 +39,19 @@ public class Room {
         this(s, d, true, false);
     }
 
-    Room(Scanner s, Dungeon d, boolean initState) throws NoRoomException,
-        Dungeon.IllegalDungeonFormatException {
+    Room(Scanner s, Dungeon d, boolean initState, boolean isDark) throws NoRoomException,
+            Dungeon.IllegalDungeonFormatException {
 
         init();
         title = s.nextLine();
         desc = "";
-        
         if (title.equals(Dungeon.TOP_LEVEL_DELIM)) {
             throw new NoRoomException();
         }
-            
-        String line = s.nextLine();
-        if (!line.startsWith("isDark")) {
-            try {
-                throw new GameState.IllegalSaveFormatException("No isDark.");
-            } catch (GameState.IllegalSaveFormatException e) {
-                e.printStackTrace();
-            }
-        }
-        isDark = Boolean.valueOf(line.substring(line.indexOf("=")+1));
-        
+
         String lineOfDesc = s.nextLine();
         while (!lineOfDesc.equals(Dungeon.SECOND_LEVEL_DELIM) &&
-               !lineOfDesc.equals(Dungeon.TOP_LEVEL_DELIM)) {
+                !lineOfDesc.equals(Dungeon.TOP_LEVEL_DELIM)) {
 
             if (lineOfDesc.startsWith(CONTENTS_STARTER)) {
                 String itemsList = lineOfDesc.substring(CONTENTS_STARTER.length());
@@ -74,7 +63,7 @@ public class Room {
                         }
                     } catch (Item.NoItemException e) {
                         throw new Dungeon.IllegalDungeonFormatException(
-                            "No such item '" + itemName + "'");
+                                "No such item '" + itemName + "'");
                     }
                 }
             } else {
@@ -86,9 +75,10 @@ public class Room {
         // throw away delimiter
         if (!lineOfDesc.equals(Dungeon.SECOND_LEVEL_DELIM)) {
             throw new Dungeon.IllegalDungeonFormatException("No '" +
-                Dungeon.SECOND_LEVEL_DELIM + "' after room.");
+                    Dungeon.SECOND_LEVEL_DELIM + "' after room.");
         }
     }
+
 
     // Common object initialization tasks.
     private void init() {

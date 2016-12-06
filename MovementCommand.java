@@ -17,11 +17,14 @@ class MovementCommand extends Command {
             Exit goingTo = currentRoom.getExit(dir);
             String unlocked = "";
             if(goingTo.isLocked()){
-                try{
-                    GameState.instance().getItemFromInventory(goingTo.getKey().getPrimaryName())
-                    unlocked = "You unlocked the room using the " + goingTo.getKey().getPrimaryName())
-                    gointTo.setLock(false);
-                } catch (NoItemException e){
+                try
+                {
+                    GameState.instance().getItemFromInventoryNamed(goingTo.getKey().getPrimaryName());
+                    unlocked = "You unlocked the room using the " + goingTo.getKey().getPrimaryName();
+                    goingTo.setLock(false);
+                }
+                catch (Item.NoItemException e)
+                {
                     goingTo.setLock(true);
                     return "\n You don't have the right item necessary to unlock this room. \n";
                 }

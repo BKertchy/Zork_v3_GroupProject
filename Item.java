@@ -19,7 +19,7 @@ public class Item {
     private boolean lightSource;
 
     Item(Scanner s) throws NoItemException,
-        Dungeon.IllegalDungeonFormatException {
+            Dungeon.IllegalDungeonFormatException {
 
         messages = new Hashtable<String,String>();
         events = new Hashtable<>();
@@ -32,29 +32,18 @@ public class Item {
 
         // Read item weight.
         weight = Integer.valueOf(s.nextLine());
-        
-        // Read whether item is light source.
-        String line = s.nextLine();
-        if (!line.startsWith("isLightSource")) {
-            try {
-                throw new GameState.IllegalSaveFormatException("No isLightSource.");
-            } catch (GameState.IllegalSaveFormatException e) {
-                e.printStackTrace();
-            }
-        }
-        lightSource = Boolean.valueOf(line.substring(line.indexOf("=")+1));
-            
+
         // Read and parse verbs lines, as long as there are more.
         String verbLine = s.nextLine();
         while (!verbLine.equals(Dungeon.SECOND_LEVEL_DELIM)) {
             if (verbLine.equals(Dungeon.TOP_LEVEL_DELIM)) {
                 throw new Dungeon.IllegalDungeonFormatException("No '" +
-                    Dungeon.SECOND_LEVEL_DELIM + "' after item.");
+                        Dungeon.SECOND_LEVEL_DELIM + "' after item.");
             }
             if(verbLine.contains("[")) {
                 String temp = verbLine.substring(verbLine.indexOf('[')+1,verbLine.indexOf(']'));
                 String[] eventList = temp.split(",");
-                    events.put(verbLine.substring(0,verbLine.indexOf('[')), eventList);
+                events.put(verbLine.substring(0,verbLine.indexOf('[')), eventList);
                 verbLine = verbLine.substring(0,verbLine.indexOf('[')+1) + verbLine.substring(verbLine.indexOf('['));
                 String[] verbParts = verbLine.split(":");
                 verbParts[0] = verbParts[0].substring(0,verbParts[0].indexOf('[')); //IndexOutOfBounds Exception when using '(' rather than '['
