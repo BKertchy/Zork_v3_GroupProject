@@ -95,5 +95,5 @@ public class Exit {
     * if not, it returns a String saying the Adventurer may not pass. It also udpates
     * the exit's boolean status.
     */
-    String isLocked() { return null; }
+    public boolean isLocked() { return isLocked;}
 }
