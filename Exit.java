@@ -60,7 +60,11 @@ public class Exit {
         //An exit will sometimes need a key to open
         String itemName = s.nextLine();
         while (!itemName.equals(Dungeon.SECOND_LEVEL_DELIM)){
-            key = d.getItem(itemName);
+            try {
+                key = d.getItem(itemName);
+            } catch (Item.NoItemException e) {
+                e.printStackTrace();
+            }
             isLocked = true;
             itemName = s.nextLine();
         }
@@ -88,7 +92,7 @@ public class Exit {
     String getDir() { return dir; }
     Room getSrc() { return src; }
     Room getDest() { return dest; }
-    
+    public Item getKey() { return key; }
     /*This method returns a String that was detailed in the constructor commentation.
     * It gets the item from the 'locked' HashTable and checks the GameState.instance()
     * to see if the item is in the adventurers inventory. If so, then it continues on,
@@ -96,4 +100,12 @@ public class Exit {
     * the exit's boolean status.
     */
     public boolean isLocked() { return isLocked;}
-}
+
+    public void setLock(boolean b){
+        if (b){
+            isLocked = true;
+        }
+        else isLocked = false;
+        }
+    }
+
