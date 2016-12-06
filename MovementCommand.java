@@ -20,7 +20,9 @@ class MovementCommand extends Command {
                 try{
                     GameState.instance().getItemFromInventory(goingTo.getKey().getPrimaryName())
                     unlocked = "You unlocked the room using the " + goingTo.getKey().getPrimaryName())
+                    gointTo.setLock(false);
                 } catch (NoItemException e){
+                    goingTo.setLock(true);
                     return "\n You don't have the right item necessary to unlock this room. \n";
                 }
             }
