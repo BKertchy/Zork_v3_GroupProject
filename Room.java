@@ -1,3 +1,5 @@
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.IOException;
@@ -39,7 +41,7 @@ public class Room {
         this(s, d, true, false);
     }
 
-    Room(Scanner s, Dungeon d, boolean initState, boolean isDark) throws NoRoomException,
+    Room(Scanner s, Dungeon d, boolean initState, boolean suppFeature) throws NoRoomException,
             Dungeon.IllegalDungeonFormatException {
 
         init();
@@ -49,6 +51,10 @@ public class Room {
             throw new NoRoomException();
         }
 
+        if(suppFeature) {
+            isDark = Boolean.valueOf(s.nextLine());
+        }
+        
         String lineOfDesc = s.nextLine();
         while (!lineOfDesc.equals(Dungeon.SECOND_LEVEL_DELIM) &&
                 !lineOfDesc.equals(Dungeon.TOP_LEVEL_DELIM)) {
@@ -178,6 +184,7 @@ public class Room {
                 return exit;
             }
         }
+        return null;
     }
 
     void addExit(Exit exit) {

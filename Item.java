@@ -18,7 +18,7 @@ public class Item {
     //Variable for if it's a lightsource
     private boolean lightSource;
 
-    Item(Scanner s) throws NoItemException,
+    Item(Scanner s, boolean suppFeature) throws NoItemException,
             Dungeon.IllegalDungeonFormatException {
 
         messages = new Hashtable<String,String>();
@@ -32,6 +32,12 @@ public class Item {
 
         // Read item weight.
         weight = Integer.valueOf(s.nextLine());
+
+        if(suppFeature) {
+            lightSource = Boolean.valueOf(s.nextLine());
+        } else {
+            lightSource = false;
+        }
 
         // Read and parse verbs lines, as long as there are more.
         String verbLine = s.nextLine();

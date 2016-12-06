@@ -45,7 +45,7 @@ public class Exit {
     *@author Daniel Zamojda
     *@author Brendon Kertcher
     */
-    Exit(Scanner s, Dungeon d) throws NoExitException,
+    Exit(Scanner s, Dungeon d, boolean suppFeature) throws NoExitException,
         Dungeon.IllegalDungeonFormatException {
 
         init();
@@ -56,33 +56,34 @@ public class Exit {
         src = d.getRoom(srcTitle);
         dir = s.nextLine();
         dest = d.getRoom(s.nextLine());
-        
-        //An exit will sometimes need a key to open
-        String itemName = s.nextLine();
-        while (!itemName.equals(Dungeon.SECOND_LEVEL_DELIM)){
-            try {
-                key = d.getItem(itemName);
-            } catch (Item.NoItemException e) {
-                e.printStackTrace();
-            }
-            isLocked = true;
-            itemName = s.nextLine();
-        }
-            
-        // I'm an Exit object. Great. Add me as an exit to my source Room too,
-        // though.
-        src.addExit(this);
 
-            
-        // throw away delimiter
-        if (!itemName.equals(Dungeon.SECOND_LEVEL_DELIM)) {
-            throw new Dungeon.IllegalDungeonFormatException("No '" +
-                Dungeon.SECOND_LEVEL_DELIM + "' after exit.");
+        if(suppFeature) {
+            String itemName = s.nextLine();
+            if(!itemName.equals(Dungeon.SECOND_LEVEL_DELIM)) {
+                isLocked = true;
+                try {
+                    key = d.getItem(itemName);
+                    s.nextLine();
+                } catch (Item.NoItemException e) {  }
+            }
+            src.addExit(this);
+        } else {
+
+            // I'm an Exit object. Great. Add me as an exit to my source Room too,
+            // though.
+            src.addExit(this);
+
+            // throw away delimiter
+            if (!s.nextLine().equals(Dungeon.SECOND_LEVEL_DELIM)) {
+                throw new Dungeon.IllegalDungeonFormatException("No '" +
+                        Dungeon.SECOND_LEVEL_DELIM + "' after exit.");
+            }
         }
     }
 
     // Common object initialization tasks.
     private void init() {
+        isLocked = false;
     }
 
     String describe() {

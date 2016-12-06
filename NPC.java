@@ -12,6 +12,9 @@ import java.util.Scanner;
  * @author Brendon Kertcher
  */
 public class NPC {
+
+    class NoNPCException extends Exception {}
+
     /**
      * A String containing the name of the NPC
      */
@@ -47,14 +50,22 @@ public class NPC {
      * @param d The dungeon object that the NPC will be stored in. Necessary for retrieving Item objects for inventory.
      * @param initState True if the game is being started from scratch, false if it is being loaded from a .sav file
      */
-    public NPC (Scanner s, Dungeon d, boolean initState) {
+    public NPC (Scanner s, Dungeon d, boolean initState) throws NoNPCException {
         init();
 
         name = s.nextLine();
-        location = GameState.instance().getDungeon().getRoom(s.nextLine());
+
+        if(name.equals(Dungeon.TOP_LEVEL_DELIM)) {
+            throw new NoNPCException();
+        }
+
+        location = d.getRoom(s.nextLine());
+
+
+
         String temp = s.nextLine();
-        if(temp.startsWith("Contents:")) {
-            temp = temp.substring("Contents:".length());
+        if(temp.startsWith("inventory: ")) {
+            temp = temp.substring("inventory: ".length());
             String[] itemNames = temp.split(",");
             for(String itemName : itemNames) {
                 try {
@@ -63,12 +74,18 @@ public class NPC {
                     System.out.println("There is no item named " + s + ".");
                 }
             }
+            initialMessage = s.nextLine();
+            temp = s.nextLine();
+        } else {
+            initialMessage = temp;
             temp = s.nextLine();
         }
+
         while(!temp.equals("---")) {
             String statement = temp.substring(0, temp.indexOf(':'));
-            String response = temp.substring(temp.indexOf(':'));
-            addMessage(temp.substring(0, temp.indexOf(':')),temp.substring(temp.indexOf(':')));
+            String response = temp.substring(temp.indexOf(':')+1);
+            addMessage(statement, response);
+            temp = s.nextLine();
         }
     }
 
@@ -147,4 +164,6 @@ public class NPC {
         }
         return null;
     }
+
+    public String getName() { return this.name; }
 }

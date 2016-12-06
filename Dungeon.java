@@ -31,6 +31,7 @@ public class   Dungeon {
     private Room entry;
     private Hashtable<String,Room> rooms;
     private Hashtable<String,Item> items;
+    private Hashtable<String,NPC> NPCs;
     private String filename;
 
     Dungeon(String name, Room entry) {
@@ -60,35 +61,37 @@ public class   Dungeon {
 
         init();
         this.filename = filename;
+        boolean suppFeature = false;
 
         Scanner s = new Scanner(new FileReader(filename));
         name = s.nextLine();
-
-        s.nextLine();   // Throw away version indicator.
+        if(s.nextLine().equals("Final Zork")) {
+            suppFeature = true;
+        }
 
         // Throw away delimiter.
         if (!s.nextLine().equals(TOP_LEVEL_DELIM)) {
             throw new IllegalDungeonFormatException("No '" +
-                TOP_LEVEL_DELIM + "' after version indicator.");
+                    TOP_LEVEL_DELIM + "' after version indicator.");
         }
 
         // Throw away Items starter.
         if (!s.nextLine().equals(ITEMS_MARKER)) {
             throw new IllegalDungeonFormatException("No '" +
-                ITEMS_MARKER + "' line where expected.");
+                    ITEMS_MARKER + "' line where expected.");
         }
 
         try {
             // Instantiate items.
             while (true) {
-                add(new Item(s));
+                add(new Item(s, suppFeature));
             }
         } catch (Item.NoItemException e) {  /* end of items */ }
 
         // Throw away Rooms starter.
         if (!s.nextLine().equals(ROOMS_MARKER)) {
             throw new IllegalDungeonFormatException("No '" +
-                ROOMS_MARKER + "' line where expected.");
+                    ROOMS_MARKER + "' line where expected.");
         }
 
         try {
@@ -98,22 +101,31 @@ public class   Dungeon {
 
             // Instantiate and add other rooms.
             while (true) {
-                add(new Room(s, this, initState, false));
+                add(new Room(s, this, initState, suppFeature));
             }
         } catch (Room.NoRoomException e) {  /* end of rooms */ }
 
         // Throw away Exits starter.
         if (!s.nextLine().equals(EXITS_MARKER)) {
             throw new IllegalDungeonFormatException("No '" +
-                EXITS_MARKER + "' line where expected.");
+                    EXITS_MARKER + "' line where expected.");
         }
 
         try {
             // Instantiate exits.
             while (true) {
-                Exit exit = new Exit(s, this, false);
+                Exit exit = new Exit(s, this, suppFeature);
             }
         } catch (Exit.NoExitException e) {  /* end of exits */ }
+
+        if(suppFeature) {
+            s.nextLine();           // Throw away "NPCs:" line
+            try {
+                while (true) {
+                    add(new NPC(s, this, initState));
+                }
+            } catch (NPC.NoNPCException e) { /* end of NPCs */ }
+        }
 
         s.close();
     }
@@ -123,6 +135,7 @@ public class   Dungeon {
     private void init() {
         rooms = new Hashtable<String,Room>();
         items = new Hashtable<String,Item>();
+        NPCs = new Hashtable<>();
     }
 
     /*
@@ -203,4 +216,6 @@ public class   Dungeon {
     }
 
     public Hashtable<String,Item> getItems() { return items; }
+
+    public void add(NPC npc) { NPCs.put(npc.getName(), npc); }
 }
