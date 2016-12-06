@@ -39,7 +39,7 @@ public class Room {
         this(s, d, true, false);
     }
 
-    Room(Scanner s, Dungeon d, boolean initState, boolean isDark) throws NoRoomException,
+    Room(Scanner s, Dungeon d, boolean initState) throws NoRoomException,
         Dungeon.IllegalDungeonFormatException {
 
         init();
