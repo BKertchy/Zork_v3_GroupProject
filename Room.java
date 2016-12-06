@@ -181,6 +181,14 @@ public class Room {
         }
         return null;
     }
+    
+    public Exit getExit(String dir) {
+        for(Exit exit : exits) {
+            if (exit.getDir().equals(dir)) {
+                return exit;
+            }
+        }
+    }
 
     void addExit(Exit exit) {
         exits.add(exit);
