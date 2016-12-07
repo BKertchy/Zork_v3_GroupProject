@@ -166,8 +166,7 @@ public class   Dungeon {
 
         String roomName = s.nextLine();
         while (!roomName.equals(TOP_LEVEL_DELIM)) {
-            getRoom(roomName.substring(0,roomName.length()-1)).
-                restoreState(s, this);
+            getRoom(roomName.substring(0,roomName.length()-1)).restoreState(s, this);
             roomName = s.nextLine();
         }
     }
@@ -218,4 +217,12 @@ public class   Dungeon {
     public Hashtable<String,Item> getItems() { return items; }
 
     public void add(NPC npc) { NPCs.put(npc.getName(), npc); }
+
+    public Hashtable<String,NPC> getNPCs() {
+        return NPCs;
+    }
+    public NPC getNPC(String name)
+    {
+        return NPCs.get(name);
+    }
 }

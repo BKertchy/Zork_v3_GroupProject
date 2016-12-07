@@ -171,6 +171,32 @@ public class GameState {
             health = Integer.parseInt(temp.substring(HEALTH_LEADER.length()));
         }
         score = Integer.parseInt(s.nextLine().substring(SCORE_LEADER.length()));
+        mustGoBack = s.nextLine();
+        hasLightSource = Boolean.valueOf(s.nextLine());
+
+        s.nextLine();
+        s.nextLine();
+        temp = s.nextLine();
+        while(!temp.equals("===")){
+            String NPCname = temp;
+            dungeon.getNPC(NPCname).setLocation(dungeon.getRoom(s.nextLine()));
+            String room = dungeon.getNPC(NPCname).getLocation().getTitle();
+            dungeon.getNPC(NPCname).setBeenSeen(Boolean.valueOf(s.nextLine()));
+            temp = s.nextLine();
+            if(temp.startsWith(INVENTORY_LEADER))
+            {
+                String inventoryList = temp.substring(INVENTORY_LEADER.length());
+                String[] inventoryItems = inventoryList.split(",");
+                for (String itemName : inventoryItems) {
+                    try{
+                    dungeon.getNPC(NPCname).addItemToInventory(dungeon.getItem(itemName));
+                    }
+                    catch (Item.NoItemException e) {}
+                }
+                s.nextLine();
+            }
+            temp = s.nextLine();
+        }
     }
 
     void store() throws IOException {
@@ -191,8 +217,40 @@ public class GameState {
             }
             w.println(inventory.get(inventory.size() - 1).getPrimaryName());
         }
+
         w.println(HEALTH_LEADER + health);
         w.println(SCORE_LEADER + score);
+        w.println(mustGoBack);
+        w.println(hasLightSource);
+        w.println("===");
+        //*****END OF NORMAL FEATURES*****//
+
+
+        //2. NPC Name
+        //3. NPC Location
+        //4. NPC Inventory
+        //5. NPC BeenSeen
+
+        w.println("NPC States:");
+        for(NPC x : dungeon.getNPCs().values())
+        {
+            w.println(x.getName());
+            w.println(x.getLocation().getTitle());
+            w.println(x.hasBeenSeen());
+            ArrayList<Item> y = x.getInventory();
+            if(y.size() > 0)
+            {
+
+                w.print(INVENTORY_LEADER);
+                for(int i =0; i<inventory.size(); i++)
+                {
+                    w.print(y.get(i).getPrimaryName() + ",");
+                }
+                w.println(y.get(y.size() - 1).getPrimaryName());
+            }
+            w.println("---");
+        }
+        w.println("===");
         w.close();
     }
 
@@ -395,16 +453,22 @@ public class GameState {
         switch (dir) {
             case "s":
                 mustGoBack = "n";
+                break;
             case "n":
                 mustGoBack = "s";
+                break;
             case "w":
                 mustGoBack = "e";
+                break;
             case "e":
                 mustGoBack = "w";
+                break;
             case "u":
                 mustGoBack = "d";
+                break;
             case "d":
                 mustGoBack = "u";
+                break;
         }
 
     }

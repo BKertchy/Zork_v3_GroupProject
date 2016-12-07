@@ -145,6 +145,9 @@ public class Item {
     public String teleport()
     {
         Room newRoom = GameState.instance().getDungeon().getRandomRoom();
+        while(newRoom.isDark() && !GameState.instance().hasLight())
+            newRoom = GameState.instance().getDungeon().getRandomRoom();
+
         GameState.instance().setAdventurersCurrentRoom(newRoom);
 
         return "You teleported to " + newRoom.getTitle() + "\n" + newRoom.describe();

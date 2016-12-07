@@ -186,4 +186,26 @@ public class NPC {
             return "I already gave you the " + item.getPrimaryName() + ". I don't have another!\n";
         }
     }
+
+    public ArrayList<Item> getInventory()
+    {
+        return inventory;
+    }
+
+    public boolean hasBeenSeen(){
+        return beenSeen;
+    }
+
+    public String teleport()
+    {
+        Room newRoom = GameState.instance().getDungeon().getRandomRoom();
+        while(newRoom.isDark() && !GameState.instance().hasLight())
+            newRoom = GameState.instance().getDungeon().getRandomRoom();
+
+        GameState.instance().setAdventurersCurrentRoom(newRoom);
+
+        return "You teleported to " + newRoom.getTitle() + "\n" + newRoom.describe();
+    }
+
+    public void setBeenSeen(Boolean beenSeen) { this.beenSeen = beenSeen; }
 }

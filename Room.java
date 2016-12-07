@@ -104,6 +104,7 @@ public class Room {
      */
     void storeState(PrintWriter w) throws IOException {
         w.println(title + ":");
+        w.println(isDark);
         w.println("beenHere=" + beenHere);
         if (contents.size() > 0) {
             w.print(CONTENTS_STARTER);
@@ -112,18 +113,18 @@ public class Room {
             }
             w.println(contents.get(contents.size()-1).getPrimaryName());
         }
+
         w.println(Dungeon.SECOND_LEVEL_DELIM);
     }
 
     void restoreState(Scanner s, Dungeon d) throws 
         GameState.IllegalSaveFormatException {
-
+        isDark = Boolean.valueOf(s.nextLine());
         String line = s.nextLine();
         if (!line.startsWith("beenHere")) {
             throw new GameState.IllegalSaveFormatException("No beenHere.");
         }
         beenHere = Boolean.valueOf(line.substring(line.indexOf("=")+1));
-
         line = s.nextLine();
         if (line.startsWith(CONTENTS_STARTER)) {
             String itemsList = line.substring(CONTENTS_STARTER.length());
