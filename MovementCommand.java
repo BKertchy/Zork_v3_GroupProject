@@ -5,12 +5,13 @@ class MovementCommand extends Command {
 
     MovementCommand(String dir) {
         this.dir = dir;
-        GameState.instance().setGoBack(dir);
     }
 
     public String execute() {
         Room currentRoom = GameState.instance().getAdventurersCurrentRoom();
         Room nextRoom = currentRoom.leaveBy(dir);
+        if(!currentRoom.isDark() && nextRoom.isDark() && !GameState.instance().hasLight())
+            GameState.instance().setGoBack(dir);
         if(currentRoom.isDark() && (dir != GameState.instance().goBack()) && !GameState.instance().hasLight())
             return "\n You can't see anything and therefore cannot go anywhere except from where you entered. You need a light source. \n";
         else{
