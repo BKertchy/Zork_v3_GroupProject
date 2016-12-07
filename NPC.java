@@ -87,6 +87,8 @@ public class NPC {
             addMessage(statement, response);
             temp = s.nextLine();
         }
+
+        location.addNPC(this);
     }
 
     /**
@@ -139,7 +141,7 @@ public class NPC {
             return name + " is in the room.";
         }
         beenSeen = true;
-        return name + " is in the room. " + initialMessage;
+        return name + " is in the room. \"" + initialMessage + "\"";
     }
 
     /**
@@ -166,4 +168,22 @@ public class NPC {
     }
 
     public String getName() { return this.name; }
+
+    public String wound(int healthPoints) {
+        healthPoints = healthPoints * -1;
+        GameState.instance().changeHealth(healthPoints);
+        if(healthPoints > 0)
+            return "You gained " + healthPoints + " health points!\n";
+        return "You lost " + Math.abs(healthPoints) + " health points!\n";
+    }
+
+    public String give(Item item) {
+        if(inventory.contains(item)) {
+            GameState.instance().addToInventory(item);
+            inventory.remove(item);
+            return name + " gave you a " + item.getPrimaryName() + "!\n";
+        } else {
+            return "I already gave you the " + item.getPrimaryName() + ". I don't have another!\n";
+        }
+    }
 }

@@ -54,7 +54,7 @@ public class Room {
         if(suppFeature) {
             isDark = Boolean.valueOf(s.nextLine());
         }
-        
+
         String lineOfDesc = s.nextLine();
         while (!lineOfDesc.equals(Dungeon.SECOND_LEVEL_DELIM) &&
                 !lineOfDesc.equals(Dungeon.TOP_LEVEL_DELIM)) {
@@ -91,6 +91,7 @@ public class Room {
         contents = new ArrayList<Item>();
         exits = new ArrayList<Exit>();
         beenHere = false;
+        npcs = new ArrayList<>();
     }
 
     String getTitle() { return title; }
@@ -147,7 +148,6 @@ public class Room {
             return description;
 
         } else {
-
             if (beenHere) {
                 description = title;
             } else {
@@ -155,6 +155,9 @@ public class Room {
             }
             for (Item item : contents) {
                 description += "\nThere is a " + item.getPrimaryName() + " here.";
+            }
+            for(NPC npc : npcs) {
+                description += "\n" + npc.describe();
             }
             if (contents.size() > 0) {
                 description += "\n";
@@ -243,7 +246,7 @@ public class Room {
     *@return void
     *@author Daniel Zamojda
     */
-    public void addNPCs(NPC npc) {}
+    public void addNPC(NPC npc) { npcs.add(npc); }
     
-    
+    public boolean containsNPC() { return !npcs.isEmpty(); }
 }

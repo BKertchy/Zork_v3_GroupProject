@@ -414,8 +414,5 @@ public class GameState {
         for(Item i : dungeon.getItems().values())
             sum+= i.getWeight();
         maxWeight = (int) Math.round( sum *.75);
-
     }
-
-    // heyyyyyyyyy
 }
