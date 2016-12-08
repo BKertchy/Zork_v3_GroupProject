@@ -4,11 +4,15 @@ Features:
 	- All NPC's have a name, location, inventory, and messages
 	- NPC's may also trigger events
 	- Adventurer is able to trade items with NPC's
-	- Certain messages trigger specific NPC outputs
+	- Certain inputed messages trigger specific NPC outputs
 	
 2. Weight Limit
 	- Limit on inventory weight
 	- Will not allow an adventurer to pick up items when over encumbered
 	
 3. Dark and Locked rooms
+	- Locked rooms will only allow an adventurer to enter while equiped with
+	a specific item in their inventory
+	- Dark rooms may be entered but must be exited the way they came from
+	- Only specific items have the ability to lock and or lighten rooms
 	
